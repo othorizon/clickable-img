@@ -1,6 +1,8 @@
 import { HeroSection } from './HeroSection'
 import { FeaturesSection } from './FeaturesSection'
 import { HowItWorksSection } from './HowItWorksSection'
+import { UseCasesSection } from './UseCasesSection'
+import { HowItWorksTechSection } from './HowItWorksTechSection'
 import { SdkGuideSection } from './SdkGuideSection'
 import { TryItSection } from './TryItSection'
 
@@ -16,6 +18,8 @@ export function LandingPage({ onStartEditor, onStartTester, onImageLoaded }: Pro
       <HeroSection onStartEditor={onStartEditor} onStartTester={onStartTester} />
       <FeaturesSection />
       <HowItWorksSection />
+      <UseCasesSection />
+      <HowItWorksTechSection />
       <SdkGuideSection />
       <TryItSection onImageLoaded={onImageLoaded} />
     </div>

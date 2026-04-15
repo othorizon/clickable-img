@@ -16,6 +16,7 @@ const messages: Record<Locale, Record<string, string>> = {
     'hero.description': '免费在线工具，可视化绘制热区、添加标签和自定义数据，导出后热区元数据直接嵌入图片文件。配套零依赖 SDK，轻松集成到任何网页项目。',
     'hero.startBtn': '开始创建',
     'hero.testBtn': '测试热区',
+    'hero.sdkBtn': '集成指南',
 
     // Features
     'features.title': '核心特性',
@@ -97,6 +98,53 @@ const messages: Record<Locale, Record<string, string>> = {
     'sdk.viewOnGithub': '查看 GitHub 文档',
     'sdk.githubHint': '完整的安装指南、API 文档和使用示例',
 
+    // Use Cases
+    'usecases.title': '适用场景',
+    'usecases.subtitle': '当你需要在图片上实现交互时，clickable-img 是最轻量的解决方案',
+    'usecases.ad.title': '运营广告弹窗',
+    'usecases.ad.desc': '弹窗广告图中的按钮、商品区域均可配置为热区，更换广告时只需替换图片，无需改动代码。',
+    'usecases.landing.title': '活动落地页',
+    'usecases.landing.desc': '设计师输出的精美活动图直接用作页面，热区负责跳转链接，免去复杂的 CSS 还原。',
+    'usecases.map.title': '导览地图',
+    'usecases.map.desc': '景区导览图、商场楼层图等，在图片上标注兴趣点，点击即可展示详情。',
+    'usecases.edu.title': '互动教学',
+    'usecases.edu.desc': '在教学图片上标注知识点热区，学生点击可查看解释说明，增强互动性。',
+    'usecases.case.title': '典型案例：广告弹窗热更新',
+    'usecases.case.step1': '项目中开发一次图片弹窗组件，集成 SDK 并配置热区点击事件的处理逻辑',
+    'usecases.case.step2': '运营人员使用在线编辑器在新的广告图上绘制交互热区',
+    'usecases.case.step3': '将导出的图片上传到 CDN / 对象存储，替换原有图片地址即可生效',
+    'usecases.case.result': '全程无需修改代码、无需重新部署，实现广告内容的热更新。',
+    'usecases.adv.title': '核心优势',
+    'usecases.adv.hotUpdate': '热更新：替换图片即可上线新内容，无需发版',
+    'usecases.adv.fastShip': '快速交付：无需用代码还原复杂 UI 设计，一张图即可承载',
+    'usecases.adv.lowCost': '低开发成本：展示类页面只需监听点击事件，大幅减少前端工作量',
+
+    // Technical Principle
+    'tech.title': '技术原理',
+    'tech.subtitle': '所有热区数据都存储在 PNG 文件内部，无需额外服务端支持',
+    'tech.storage.title': 'PNG tEXt Chunk 存储',
+    'tech.storage.desc': 'PNG 规范定义了 tEXt 类型的辅助数据块，用于存储文本元数据。编辑器将热区信息序列化为 JSON，以 "clickable-img" 为关键字写入 tEXt chunk，插入到 IEND 之前。图片像素数据不受任何影响。',
+    'tech.coord.title': '归一化坐标系',
+    'tech.coord.desc': '热区坐标使用 0~1 的相对值（相对于图片宽高的百分比），因此无论图片在页面中以何种尺寸渲染，热区位置始终精确对齐。',
+    'tech.render.title': 'DOM 覆盖层渲染',
+    'tech.render.desc': 'SDK 在运行时请求图片数据，解析 tEXt chunk 中的热区 JSON，然后在图片外层包裹一个 relative 容器，每个热区生成一个 absolute 定位的透明 div，监听点击事件并回调。',
+    'tech.flow.title': '数据流',
+    'tech.flow.step1': '编辑器绘制热区 → 序列化为 JSON',
+    'tech.flow.step2': 'JSON 写入 PNG tEXt chunk → 导出图片',
+    'tech.flow.step3': 'SDK 加载图片 → 解析 tEXt chunk',
+    'tech.flow.step4': '根据热区坐标生成 DOM 覆盖层 → 监听交互事件',
+
+    // Cross-platform
+    'xplat.title': '跨平台集成',
+    'xplat.desc': 'clickable-img 可在任何基于 JavaScript 的平台上集成。@clickable-img/sdk 是面向浏览器的开箱即用封装，但并非必需——你只需要 @clickable-img/core。',
+    'xplat.step1.title': '读取热区数据',
+    'xplat.step1.desc': '调用 core 包的 readHotspotsFromPng 解析 PNG，获取热区坐标和自定义数据。',
+    'xplat.step2.title': '自行实现交互层',
+    'xplat.step2.desc': '根据热区坐标，用你所在平台的方式（Canvas、原生 View、WebGL 等）在图片上叠加可点击区域。',
+    'xplat.step3.title': '处理点击事件',
+    'xplat.step3.desc': '用户点击热区时，读取 label 和 payload 执行业务逻辑，如跳转页面、弹窗展示等。',
+    'xplat.hint': 'core 包零外部依赖、纯 JavaScript 实现，可在 Node.js、React Native、小程序、Electron 等任何 JS 运行时中使用。',
+
     // Footer
     'footer.desc': '免费开源的图片热区编辑工具',
     'footer.github': 'GitHub',
@@ -115,6 +163,7 @@ const messages: Record<Locale, Record<string, string>> = {
     'hero.description': 'A free online tool to visually draw hotspot regions, add labels and custom payload data, then export images with metadata embedded directly in the PNG file. Comes with a zero-dependency SDK for easy integration.',
     'hero.startBtn': 'Start Creating',
     'hero.testBtn': 'Test Hotspots',
+    'hero.sdkBtn': 'Integration Guide',
 
     // Features
     'features.title': 'Key Features',
@@ -195,6 +244,53 @@ const messages: Record<Locale, Record<string, string>> = {
     'sdk.pkg.sdk.desc': 'Browser SDK that reads image hotspot data and renders interactive overlays. Works out of the box.',
     'sdk.viewOnGithub': 'View on GitHub',
     'sdk.githubHint': 'Full installation guide, API docs, and usage examples',
+
+    // Use Cases
+    'usecases.title': 'Use Cases',
+    'usecases.subtitle': 'When you need interactive regions on images, clickable-img is the lightest solution',
+    'usecases.ad.title': 'Ad Pop-ups',
+    'usecases.ad.desc': 'Buttons and product areas in pop-up ads can be configured as hotspots. Swap the image to update — no code changes needed.',
+    'usecases.landing.title': 'Campaign Pages',
+    'usecases.landing.desc': 'Use the designer\'s artwork directly as the page. Hotspots handle navigation links — no complex CSS reproduction needed.',
+    'usecases.map.title': 'Interactive Maps',
+    'usecases.map.desc': 'Scenic area guides, mall floor plans — mark points of interest on the image, click to show details.',
+    'usecases.edu.title': 'Interactive Learning',
+    'usecases.edu.desc': 'Mark knowledge points on educational images. Students click to view explanations, enhancing engagement.',
+    'usecases.case.title': 'Real-World Example: Hot-Updatable Ad Pop-ups',
+    'usecases.case.step1': 'Develop the image pop-up component once, integrate the SDK and configure hotspot click handlers',
+    'usecases.case.step2': 'Operations team uses the online editor to draw hotspots on the new ad image',
+    'usecases.case.step3': 'Upload the exported image to CDN / object storage, replacing the old image URL',
+    'usecases.case.result': 'No code changes, no redeployment — ad content is hot-updated instantly.',
+    'usecases.adv.title': 'Key Advantages',
+    'usecases.adv.hotUpdate': 'Hot Update: replace the image to ship new content, no release needed',
+    'usecases.adv.fastShip': 'Fast Delivery: no need to reproduce complex UI designs in code — one image carries it all',
+    'usecases.adv.lowCost': 'Low Dev Cost: display-oriented pages only need click event listeners, drastically reducing frontend work',
+
+    // Technical Principle
+    'tech.title': 'Technical Principle',
+    'tech.subtitle': 'All hotspot data is stored inside the PNG file — no extra server required',
+    'tech.storage.title': 'PNG tEXt Chunk Storage',
+    'tech.storage.desc': 'The PNG spec defines tEXt auxiliary chunks for storing text metadata. The editor serializes hotspot data as JSON, writes it into a tEXt chunk keyed "clickable-img", and inserts it before the IEND marker. Pixel data remains untouched.',
+    'tech.coord.title': 'Normalized Coordinates',
+    'tech.coord.desc': 'Hotspot coordinates use relative values in the 0~1 range (percentage of image dimensions), so hotspots always align precisely regardless of the rendered image size.',
+    'tech.render.title': 'DOM Overlay Rendering',
+    'tech.render.desc': 'The SDK fetches the image data at runtime, parses the hotspot JSON from the tEXt chunk, wraps the image in a relative container, and generates an absolute-positioned transparent div for each hotspot with click event listeners.',
+    'tech.flow.title': 'Data Flow',
+    'tech.flow.step1': 'Editor draws hotspots → serialized to JSON',
+    'tech.flow.step2': 'JSON written into PNG tEXt chunk → image exported',
+    'tech.flow.step3': 'SDK loads image → parses tEXt chunk',
+    'tech.flow.step4': 'DOM overlay generated from hotspot coordinates → interaction events bound',
+
+    // Cross-platform
+    'xplat.title': 'Cross-Platform Integration',
+    'xplat.desc': 'clickable-img works on any JavaScript-based platform. @clickable-img/sdk is a ready-to-use wrapper for the browser, but it\'s not required — all you need is @clickable-img/core.',
+    'xplat.step1.title': 'Read Hotspot Data',
+    'xplat.step1.desc': 'Call readHotspotsFromPng from the core package to parse the PNG and extract hotspot coordinates and custom data.',
+    'xplat.step2.title': 'Build Your Own Overlay',
+    'xplat.step2.desc': 'Use the hotspot coordinates to create clickable regions on top of the image using your platform\'s approach — Canvas, native Views, WebGL, etc.',
+    'xplat.step3.title': 'Handle Click Events',
+    'xplat.step3.desc': 'When a user taps a hotspot, read its label and payload to execute business logic — navigate, show a modal, trigger an action, etc.',
+    'xplat.hint': 'The core package has zero external dependencies and is pure JavaScript — it runs in Node.js, React Native, Mini Programs, Electron, and any other JS runtime.',
 
     // Footer
     'footer.desc': 'Free & open-source image hotspot editor',

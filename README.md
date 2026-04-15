@@ -29,6 +29,57 @@
 
 No server required. All data lives inside the PNG file itself.
 
+## Use Cases
+
+When you need interactive regions on images, clickable-img provides the lightest solution:
+
+- **Ad Pop-ups** — Buttons and product zones in pop-up ads are configured as hotspots. Swap the image to update content — zero code changes.
+- **Campaign Landing Pages** — Use the designer's artwork directly as the page. Hotspots handle navigation, eliminating complex CSS reproduction.
+- **Interactive Maps** — Scenic area guides, mall floor plans, etc. Mark points of interest on images, click to reveal details.
+- **Interactive Learning** — Mark knowledge points on educational images. Students click to view explanations.
+
+### Real-World Example: Hot-Updatable Ad Pop-ups
+
+1. **Develop once** — Build the image pop-up component, integrate the SDK, and configure hotspot click event handlers.
+2. **Configure hotspots** — Operations team uses the online editor to draw interactive hotspots on the new ad image.
+3. **Deploy content** — Upload the exported image to CDN / object storage, replacing the old image URL.
+
+**Result:** No code changes, no redeployment — ad content is hot-updated instantly.
+
+### Key Advantages
+
+- **Hot Update** — Replace the image to ship new content, no release needed
+- **Fast Delivery** — No need to reproduce complex UI designs in code; a single image carries the entire visual
+- **Low Dev Cost** — Display-oriented pages only need click event listeners, drastically reducing frontend work
+
+## How It Works (Technical)
+
+All hotspot data is stored inside the PNG file itself — no extra server required.
+
+### PNG tEXt Chunk Storage
+
+The [PNG specification](https://www.w3.org/TR/png/#11tEXt) defines `tEXt` auxiliary chunks for storing text metadata. The editor serializes hotspot data as JSON, writes it into a `tEXt` chunk with the keyword `clickable-img`, and inserts it before the `IEND` marker. **Pixel data remains completely untouched.**
+
+### Normalized Coordinate System
+
+Hotspot coordinates use relative values in the 0\~1 range (percentage of image width/height). This means hotspots always align precisely, regardless of the actual rendered image size on screen.
+
+### DOM Overlay Rendering
+
+At runtime, the SDK fetches the image binary data, parses the `tEXt` chunk to extract the hotspot JSON, wraps the `<img>` element in a `position: relative` container, and generates an `position: absolute` transparent `<div>` for each hotspot with click event listeners.
+
+### Data Flow
+
+```
+Editor draws hotspots → serialize to JSON
+        ↓
+JSON written into PNG tEXt chunk → image exported
+        ↓
+SDK loads image → parses tEXt chunk
+        ↓
+DOM overlay generated from coordinates → interaction events bound
+```
+
 ## Packages
 
 | Package | Description | Platform |
@@ -61,6 +112,16 @@ const instance = await ClickableImg.attach(img, {
 // clean up when done
 instance.destroy()
 ```
+
+### Cross-Platform Integration
+
+clickable-img works on **any JavaScript-based platform**. The `@clickable-img/sdk` is a ready-to-use wrapper for the browser, but it's not required — all you need is `@clickable-img/core`.
+
+1. **Read hotspot data** — Call `readHotspotsFromPng` from the core package to parse the PNG and extract hotspot coordinates and custom data.
+2. **Build your own overlay** — Use the hotspot coordinates to create clickable regions on top of the image using your platform's native approach — Canvas, native Views, WebGL, etc.
+3. **Handle click events** — When a user taps a hotspot, read its `label` and `payload` to execute your business logic.
+
+> The core package has zero external dependencies and is pure JavaScript — it runs in Node.js, React Native, Mini Programs, Electron, and any other JS runtime.
 
 ### Core Only (Custom Rendering)
 

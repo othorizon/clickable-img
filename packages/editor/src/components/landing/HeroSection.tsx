@@ -32,6 +32,12 @@ export function HeroSection({ onStartEditor, onStartTester }: Props) {
         >
           {t('hero.testBtn')}
         </button>
+        <a
+          href="#sdk-guide"
+          className="px-8 py-3.5 text-blue-600 text-lg font-semibold rounded-xl border border-blue-200 hover:border-blue-400 hover:bg-blue-50 transition-colors"
+        >
+          {t('hero.sdkBtn')}
+        </a>
       </div>
     </section>
   )
