@@ -1,7 +1,12 @@
 {
   "name": "@clickable-img/core",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Platform-agnostic core: types and PNG hotspot metadata parsing",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/othorizon/clickable-img.git",
+    "directory": "packages/core"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

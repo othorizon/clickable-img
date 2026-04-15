@@ -1,7 +1,12 @@
 {
   "name": "@clickable-img/uniapp",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "ClickableImage component for UniApp / WeChat Mini Programs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/othorizon/clickable-img.git",
+    "directory": "packages/uniapp"
+  },
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

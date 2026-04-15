@@ -1,7 +1,12 @@
 {
-  "name": "@rizon/clickable-img-sdk",
-  "version": "0.1.0",
+  "name": "@clickable-img/sdk",
+  "version": "0.1.2",
   "description": "SDK for rendering clickable hotspots on images with embedded metadata",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/othorizon/clickable-img.git",
+    "directory": "packages/sdk"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
