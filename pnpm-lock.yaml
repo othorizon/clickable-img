@@ -26,6 +26,9 @@ importers:
 
   packages/editor:
     dependencies:
+      '@clickable-img/sdk':
+        specifier: workspace:*
+        version: link:../sdk
       react:
         specifier: ^19.0.0
         version: 19.2.5

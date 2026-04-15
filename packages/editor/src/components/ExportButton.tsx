@@ -1,18 +1,22 @@
 import type { Hotspot } from '../types'
 import { embedHotspotsInPng, downloadBlob } from '../utils/png-writer'
+import { useLocale } from '../i18n'
 
 interface Props {
   hotspots: Hotspot[]
   imageBuffer: ArrayBuffer | null
+  onExported?: () => void
 }
 
-export function ExportButton({ hotspots, imageBuffer }: Props) {
+export function ExportButton({ hotspots, imageBuffer, onExported }: Props) {
   const disabled = !imageBuffer || hotspots.length === 0
+  const { t } = useLocale()
 
   const handleExport = () => {
     if (!imageBuffer || hotspots.length === 0) return
     const blob = embedHotspotsInPng(imageBuffer, hotspots)
     downloadBlob(blob, 'clickable-image.png')
+    onExported?.()
   }
 
   return (
@@ -25,7 +29,7 @@ export function ExportButton({ hotspots, imageBuffer }: Props) {
       disabled={disabled}
       onClick={handleExport}
     >
-      导出图片
+      {t('editor.export')}
     </button>
   )
 }
