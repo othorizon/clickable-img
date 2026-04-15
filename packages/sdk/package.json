@@ -1,6 +1,6 @@
 {
   "name": "@clickable-img/sdk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "SDK for rendering clickable hotspots on images with embedded metadata",
   "repository": {
     "type": "git",
@@ -18,7 +18,12 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@clickable-img/core": "workspace:*"
   },

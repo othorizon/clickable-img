@@ -1,6 +1,6 @@
 {
   "name": "@clickable-img/core",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Platform-agnostic core: types and PNG hotspot metadata parsing",
   "repository": {
     "type": "git",
@@ -18,7 +18,12 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch"

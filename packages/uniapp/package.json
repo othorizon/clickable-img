@@ -1,6 +1,6 @@
 {
   "name": "@clickable-img/uniapp",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "ClickableImage component for UniApp / WeChat Mini Programs",
   "repository": {
     "type": "git",
@@ -17,7 +17,12 @@
     },
     "./components/*": "./src/components/*"
   },
-  "files": ["src"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build": "echo 'Source-distributed; no build needed'",
     "dev": "echo 'Source-distributed; no build needed'"
