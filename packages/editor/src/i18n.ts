@@ -84,6 +84,21 @@ const messages: Record<Locale, Record<string, string>> = {
     'tester.detailSize': '大小',
     'tester.imgAlt': '测试中的图片',
 
+    // SDK Guide
+    'sdk.title': '开发者集成指南',
+    'sdk.subtitle': '通过 SDK 将可点击热区集成到你的网页项目中，支持浏览器和小程序平台。',
+    'sdk.install': '快速安装',
+    'sdk.usage': '快速使用',
+    'sdk.usageComment': '自动读取 PNG 中嵌入的热区数据并渲染交互层',
+    'sdk.pkg.core.name': '@clickable-img/core',
+    'sdk.pkg.core.desc': '核心库，提供类型定义和 PNG 元数据解析，零外部依赖，适用于任何平台。',
+    'sdk.pkg.sdk.name': '@clickable-img/sdk',
+    'sdk.pkg.sdk.desc': '浏览器端 SDK，自动读取图片热区数据并渲染可交互覆盖层，开箱即用。',
+    'sdk.pkg.uniapp.name': '@clickable-img/uniapp',
+    'sdk.pkg.uniapp.desc': 'UniApp / 微信小程序组件，Vue 3 适配，跨端支持。',
+    'sdk.viewOnGithub': '查看 GitHub 文档',
+    'sdk.githubHint': '完整的安装指南、API 文档和使用示例',
+
     // Footer
     'footer.desc': '免费开源的图片热区编辑工具',
     'footer.github': 'GitHub',
@@ -169,6 +184,21 @@ const messages: Record<Locale, Record<string, string>> = {
     'tester.detailPosition': 'Position',
     'tester.detailSize': 'Size',
     'tester.imgAlt': 'Image being tested',
+
+    // SDK Guide
+    'sdk.title': 'Developer Integration Guide',
+    'sdk.subtitle': 'Integrate clickable hotspots into your web projects via our SDK. Supports browsers and mini programs.',
+    'sdk.install': 'Quick Install',
+    'sdk.usage': 'Quick Start',
+    'sdk.usageComment': 'Auto-reads hotspot data embedded in PNG and renders interactive overlay',
+    'sdk.pkg.core.name': '@clickable-img/core',
+    'sdk.pkg.core.desc': 'Core library with type definitions and PNG metadata parsing. Zero dependencies, works on any platform.',
+    'sdk.pkg.sdk.name': '@clickable-img/sdk',
+    'sdk.pkg.sdk.desc': 'Browser SDK that reads image hotspot data and renders interactive overlays. Works out of the box.',
+    'sdk.pkg.uniapp.name': '@clickable-img/uniapp',
+    'sdk.pkg.uniapp.desc': 'UniApp / WeChat Mini Program component with Vue 3 support for cross-platform use.',
+    'sdk.viewOnGithub': 'View on GitHub',
+    'sdk.githubHint': 'Full installation guide, API docs, and usage examples',
 
     // Footer
     'footer.desc': 'Free & open-source image hotspot editor',

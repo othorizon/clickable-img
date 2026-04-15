@@ -1,6 +1,7 @@
 import { HeroSection } from './HeroSection'
 import { FeaturesSection } from './FeaturesSection'
 import { HowItWorksSection } from './HowItWorksSection'
+import { SdkGuideSection } from './SdkGuideSection'
 import { TryItSection } from './TryItSection'
 
 interface Props {
@@ -15,6 +16,7 @@ export function LandingPage({ onStartEditor, onStartTester, onImageLoaded }: Pro
       <HeroSection onStartEditor={onStartEditor} onStartTester={onStartTester} />
       <FeaturesSection />
       <HowItWorksSection />
+      <SdkGuideSection />
       <TryItSection onImageLoaded={onImageLoaded} />
     </div>
   )
