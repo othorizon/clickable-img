@@ -1,7 +1,7 @@
 {
-  "name": "@clickable-img/sdk",
+  "name": "@clickable-img/core",
   "version": "0.1.0",
-  "description": "SDK for rendering clickable hotspots on images with embedded metadata",
+  "description": "Platform-agnostic core: types and PNG hotspot metadata parsing",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -14,9 +14,6 @@
     }
   },
   "files": ["dist"],
-  "dependencies": {
-    "@clickable-img/core": "workspace:*"
-  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch"

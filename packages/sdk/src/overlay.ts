@@ -1,4 +1,4 @@
-import type { Hotspot, ClickableImgOptions } from './types'
+import type { Hotspot, ClickableImgOptions } from '@clickable-img/core'
 
 export interface OverlayInstance {
   container: HTMLElement
