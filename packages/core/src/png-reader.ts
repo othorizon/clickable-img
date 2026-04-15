@@ -16,6 +16,35 @@ function bytesToString(bytes: Uint8Array, start: number, length: number): string
   return str
 }
 
+function decodeUtf8(bytes: Uint8Array): string {
+  if (typeof TextDecoder !== 'undefined') {
+    return new TextDecoder('utf-8').decode(bytes)
+  }
+  // Pure JS UTF-8 decode fallback for environments without TextDecoder (e.g. WeChat Mini Program)
+  let result = ''
+  let i = 0
+  while (i < bytes.length) {
+    const byte = bytes[i]
+    if (byte < 0x80) {
+      result += String.fromCharCode(byte)
+      i++
+    } else if ((byte & 0xe0) === 0xc0) {
+      result += String.fromCharCode(((byte & 0x1f) << 6) | (bytes[i + 1] & 0x3f))
+      i += 2
+    } else if ((byte & 0xf0) === 0xe0) {
+      result += String.fromCharCode(((byte & 0x0f) << 12) | ((bytes[i + 1] & 0x3f) << 6) | (bytes[i + 2] & 0x3f))
+      i += 3
+    } else if ((byte & 0xf8) === 0xf0) {
+      const codePoint = ((byte & 0x07) << 18) | ((bytes[i + 1] & 0x3f) << 12) | ((bytes[i + 2] & 0x3f) << 6) | (bytes[i + 3] & 0x3f)
+      result += String.fromCodePoint(codePoint)
+      i += 4
+    } else {
+      i++
+    }
+  }
+  return result
+}
+
 export function readCustomDataFromPng(buffer: ArrayBuffer): string | null {
   const data = readHotspotsFromPng(buffer)
   return data?.customData ?? null
@@ -52,7 +81,7 @@ export function readHotspotsFromPng(buffer: ArrayBuffer): ClickableImgData | nul
 
       if (keyword === KEYWORD && nullPos < dataEnd) {
         const textBytes = bytes.slice(nullPos + 1, dataEnd)
-        const text = new TextDecoder('utf-8').decode(textBytes)
+        const text = decodeUtf8(textBytes)
         try {
           return JSON.parse(text) as ClickableImgData
         } catch {
