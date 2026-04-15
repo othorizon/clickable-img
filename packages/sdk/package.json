@@ -1,0 +1,25 @@
+{
+  "name": "@clickable-img/sdk",
+  "version": "0.1.0",
+  "description": "SDK for rendering clickable hotspots on images with embedded metadata",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0"
+  }
+}
