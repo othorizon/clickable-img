@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license" />
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs welcome" />
+  <a href="https://clickable-img.dev.noteloom.app/"><img src="https://img.shields.io/badge/Online%20Editor-clickable--img-blue?logo=google-chrome&logoColor=white" alt="Online Editor" /></a>
 </p>
 
 <p align="center">
@@ -28,6 +29,14 @@
 3. **Render** in your app — the SDK reads the metadata and creates clickable zones automatically
 
 No server required. All data lives inside the PNG file itself.
+
+## Edit Image Hotspots
+
+Use the online editor to create and manage hotspots on your images:
+
+**[https://clickable-img.dev.noteloom.app](https://clickable-img.dev.noteloom.app/)**
+
+The editor lets you visually draw hotspot regions on any PNG image, add labels and custom data to each hotspot, then export the image with all hotspot metadata embedded. The exported PNG can be used directly with the SDK — no additional configuration files needed.
 
 ## Use Cases
 

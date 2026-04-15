@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license" />
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs welcome" />
+  <a href="https://clickable-img.dev.noteloom.app/"><img src="https://img.shields.io/badge/在线编辑器-clickable--img-blue?logo=google-chrome&logoColor=white" alt="在线编辑器" /></a>
 </p>
 
 <p align="center">
@@ -28,6 +29,14 @@
 3. **渲染** — 在应用中加载该 PNG，SDK 自动读取元数据并生成可点击区域
 
 无需服务端，所有数据都存储在 PNG 文件本身。
+
+## 编辑图片热区
+
+使用在线编辑器为图片创建和管理热区：
+
+**[https://clickable-img.dev.noteloom.app](https://clickable-img.dev.noteloom.app/)**
+
+在编辑器中，你可以在任意 PNG 图片上可视化地绘制热区、为每个热区添加标签和自定义数据，然后导出带有热区元数据的图片。导出的 PNG 可直接配合 SDK 使用，无需额外的配置文件。
 
 ## 适用场景
 
