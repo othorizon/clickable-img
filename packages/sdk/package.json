@@ -1,5 +1,5 @@
 {
-  "name": "@clickable-img/sdk",
+  "name": "@rizon/clickable-img-sdk",
   "version": "0.1.0",
   "description": "SDK for rendering clickable hotspots on images with embedded metadata",
   "type": "module",
