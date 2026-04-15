@@ -1,6 +1,6 @@
 {
   "name": "@clickable-img/uniapp",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "ClickableImage component for UniApp / WeChat Mini Programs",
   "repository": {
     "type": "git",
