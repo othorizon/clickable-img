@@ -41,7 +41,7 @@ export function Canvas({ imageUrl, hotspots, selectedId, onAddHotspot, onSelectH
     >
       <img
         src={imageUrl}
-        alt="编辑中的图片"
+        alt="Image being edited"
         className="max-w-full max-h-[70vh] block pointer-events-none"
         draggable={false}
       />
