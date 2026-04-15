@@ -38,6 +38,74 @@
 
 在编辑器中，你可以在任意 PNG 图片上可视化地绘制热区、为每个热区添加标签和自定义数据，然后导出带有热区元数据的图片。导出的 PNG 可直接配合 SDK 使用，无需额外的配置文件。
 
+## 快速开始
+
+### Web 浏览器
+
+```bash
+npm install @clickable-img/sdk
+```
+
+```ts
+import { ClickableImg } from '@clickable-img/sdk'
+
+const img = document.querySelector('img#hero')
+
+const instance = await ClickableImg.attach(img, {
+  onClick(hotspot) {
+    console.log(hotspot.label)   // "立即购买"
+    console.log(hotspot.payload) // "product-123"
+  },
+  showHints: true, // 可选，显示热区边框
+})
+
+// 读取图片中嵌入的自定义附加信息
+const customData = instance.getCustomData() // string | null
+
+// 不再需要时销毁
+instance.destroy()
+```
+
+### 跨平台集成
+
+clickable-img 可在**任何基于 JavaScript 的平台**上集成。`@clickable-img/sdk` 是面向浏览器的开箱即用封装，但并非必需——你只需要 `@clickable-img/core`。
+
+1. **读取热区数据** — 调用 core 包的 `readHotspotsFromPng` 解析 PNG，获取热区坐标和自定义数据。
+2. **自行实现交互层** — 根据热区坐标，用你所在平台的方式（Canvas、原生 View、WebGL 等）在图片上叠加可点击区域。
+3. **处理点击事件** — 用户点击热区时，读取 `label` 和 `payload` 执行业务逻辑。
+
+> core 包零外部依赖、纯 JavaScript 实现，可在 Node.js、React Native、小程序、Electron 等任何 JS 运行时中使用。
+
+### 仅使用核心包（自定义渲染）
+
+适用于没有内置适配器的平台（React Native、Flutter、Node.js 等）：
+
+```bash
+npm install @clickable-img/core
+```
+
+```ts
+import { readHotspotsFromPng, readCustomDataFromPng } from '@clickable-img/core'
+
+const buffer = await fetch('https://example.com/image.png')
+  .then(r => r.arrayBuffer())
+
+const data = readHotspotsFromPng(buffer)
+
+if (data) {
+  data.hotspots.forEach(hotspot => {
+    // hotspot.rect -> { x, y, w, h }，值域 0~1，相对于图片尺寸
+    // hotspot.label, hotspot.payload, hotspot.id
+  })
+
+  // 读取图片中嵌入的自定义附加信息
+  console.log(data.customData) // string | undefined
+}
+
+// 也可以直接读取附加信息，无需处理热区数据
+const customData = readCustomDataFromPng(buffer) // string | null
+```
+
 ## 适用场景
 
 当你需要在图片上实现交互时，clickable-img 是最轻量的解决方案：
@@ -97,65 +165,6 @@ SDK 加载图片 → 解析 tEXt chunk
 | [`@clickable-img/sdk`](./packages/sdk) | 浏览器运行时，DOM 覆盖层渲染 | Web |
 | [`@clickable-img/editor`](./packages/editor) | 可视化热区编辑器 | Web |
 
-## 快速开始
-
-### Web 浏览器
-
-```bash
-npm install @clickable-img/sdk
-```
-
-```ts
-import { ClickableImg } from '@clickable-img/sdk'
-
-const img = document.querySelector('img#hero')
-
-const instance = await ClickableImg.attach(img, {
-  onClick(hotspot) {
-    console.log(hotspot.label)   // "立即购买"
-    console.log(hotspot.payload) // "product-123"
-  },
-  showHints: true, // 可选，显示热区边框
-})
-
-// 不再需要时销毁
-instance.destroy()
-```
-
-### 跨平台集成
-
-clickable-img 可在**任何基于 JavaScript 的平台**上集成。`@clickable-img/sdk` 是面向浏览器的开箱即用封装，但并非必需——你只需要 `@clickable-img/core`。
-
-1. **读取热区数据** — 调用 core 包的 `readHotspotsFromPng` 解析 PNG，获取热区坐标和自定义数据。
-2. **自行实现交互层** — 根据热区坐标，用你所在平台的方式（Canvas、原生 View、WebGL 等）在图片上叠加可点击区域。
-3. **处理点击事件** — 用户点击热区时，读取 `label` 和 `payload` 执行业务逻辑。
-
-> core 包零外部依赖、纯 JavaScript 实现，可在 Node.js、React Native、小程序、Electron 等任何 JS 运行时中使用。
-
-### 仅使用核心包（自定义渲染）
-
-适用于没有内置适配器的平台（React Native、Flutter、Node.js 等）：
-
-```bash
-npm install @clickable-img/core
-```
-
-```ts
-import { readHotspotsFromPng } from '@clickable-img/core'
-
-const buffer = await fetch('https://example.com/image.png')
-  .then(r => r.arrayBuffer())
-
-const data = readHotspotsFromPng(buffer)
-
-if (data) {
-  data.hotspots.forEach(hotspot => {
-    // hotspot.rect -> { x, y, w, h }，值域 0~1，相对于图片尺寸
-    // hotspot.label, hotspot.payload, hotspot.id
-  })
-}
-```
-
 ## API 参考
 
 ### `@clickable-img/sdk`
@@ -168,17 +177,30 @@ if (data) {
 | `options.onClick` | `(hotspot: Hotspot) => void` | 热区点击回调 |
 | `options.showHints` | `boolean` | 是否显示热区边框，默认 `false` |
 
-返回 `Promise<ClickableImg>`，调用 `.destroy()` 移除覆盖层。
+返回 `Promise<ClickableImg>`，实例提供：
+
+- `.getCustomData(): string | null` — 获取图片中嵌入的自定义附加信息，无数据时返回 `null`。
+- `.destroy()` — 移除覆盖层并清理资源。
 
 ### `@clickable-img/core`
 
 #### `readHotspotsFromPng(buffer: ArrayBuffer): ClickableImgData | null`
 
-解析 PNG 文件中的 `tEXt` chunk，返回热区数据。无数据时返回 `null`。
+解析 PNG 文件中的 `tEXt` chunk，返回所有嵌入数据（热区 + 附加信息）。无数据时返回 `null`。
+
+#### `readCustomDataFromPng(buffer: ArrayBuffer): string | null`
+
+便捷方法，直接读取 PNG 中的自定义附加信息，无需处理热区数据。
 
 ### 数据类型
 
 ```ts
+interface ClickableImgData {
+  version: string
+  hotspots: Hotspot[]
+  customData?: string   // 嵌入图片的任意自定义文本
+}
+
 interface Hotspot {
   id: string        // 唯一标识
   rect: HotspotRect // 位置和尺寸

@@ -55,13 +55,27 @@ function createTextChunk(keyword: string, text: string): Uint8Array {
   return chunk
 }
 
-export function embedHotspotsInPng(originalBuffer: ArrayBuffer, hotspots: Hotspot[]): Blob {
+function isClickableImgTextChunk(bytes: Uint8Array, offset: number, chunkLength: number): boolean {
+  if (chunkLength < KEYWORD.length + 1) return false
+  const chunkType = String.fromCharCode(bytes[offset + 4], bytes[offset + 5], bytes[offset + 6], bytes[offset + 7])
+  if (chunkType !== 'tEXt') return false
+  const dataStart = offset + 8
+  for (let i = 0; i < KEYWORD.length; i++) {
+    if (bytes[dataStart + i] !== KEYWORD.charCodeAt(i)) return false
+  }
+  return bytes[dataStart + KEYWORD.length] === 0
+}
+
+export function embedHotspotsInPng(originalBuffer: ArrayBuffer, hotspots: Hotspot[], customData?: string): Blob {
   const original = new Uint8Array(originalBuffer)
   const view = new DataView(originalBuffer)
 
-  // Find IEND chunk position
-  let offset = 8 // Skip PNG signature
-  let iendOffset = -1
+  // Collect all chunks, stripping existing clickable-img tEXt chunks
+  const chunks: Uint8Array[] = []
+  chunks.push(original.slice(0, 8)) // PNG signature
+
+  let offset = 8
+  let iendChunk: Uint8Array | null = null
 
   while (offset < original.length) {
     const chunkLength = view.getUint32(offset, false)
@@ -71,16 +85,22 @@ export function embedHotspotsInPng(originalBuffer: ArrayBuffer, hotspots: Hotspo
       original[offset + 6],
       original[offset + 7],
     )
+    const chunkEnd = offset + 4 + 4 + chunkLength + 4
 
     if (chunkType === 'IEND') {
-      iendOffset = offset
+      iendChunk = original.slice(offset, chunkEnd)
       break
     }
 
-    offset += 4 + 4 + chunkLength + 4
+    // Skip existing clickable-img tEXt chunks
+    if (!isClickableImgTextChunk(original, offset, chunkLength)) {
+      chunks.push(original.slice(offset, chunkEnd))
+    }
+
+    offset = chunkEnd
   }
 
-  if (iendOffset === -1) {
+  if (!iendChunk) {
     throw new Error('Invalid PNG: IEND chunk not found')
   }
 
@@ -88,18 +108,22 @@ export function embedHotspotsInPng(originalBuffer: ArrayBuffer, hotspots: Hotspo
   const data: ClickableImgData = {
     version: '1.0',
     hotspots,
+    ...(customData ? { customData } : {}),
   }
   const jsonText = JSON.stringify(data)
   const textChunk = createTextChunk(KEYWORD, jsonText)
 
-  // Assemble: [before IEND] + [tEXt chunk] + [IEND chunk]
-  const beforeIend = original.slice(0, iendOffset)
-  const iendChunk = original.slice(iendOffset)
+  // Assemble: [existing chunks] + [new tEXt chunk] + [IEND]
+  chunks.push(textChunk)
+  chunks.push(iendChunk)
 
-  const result = new Uint8Array(beforeIend.length + textChunk.length + iendChunk.length)
-  result.set(beforeIend, 0)
-  result.set(textChunk, beforeIend.length)
-  result.set(iendChunk, beforeIend.length + textChunk.length)
+  const totalLength = chunks.reduce((sum, c) => sum + c.length, 0)
+  const result = new Uint8Array(totalLength)
+  let pos = 0
+  for (const chunk of chunks) {
+    result.set(chunk, pos)
+    pos += chunk.length
+  }
 
   return new Blob([result], { type: 'image/png' })
 }

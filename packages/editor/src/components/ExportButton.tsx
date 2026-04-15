@@ -5,16 +5,17 @@ import { useLocale } from '../i18n'
 interface Props {
   hotspots: Hotspot[]
   imageBuffer: ArrayBuffer | null
+  customData?: string
   onExported?: () => void
 }
 
-export function ExportButton({ hotspots, imageBuffer, onExported }: Props) {
+export function ExportButton({ hotspots, imageBuffer, customData, onExported }: Props) {
   const disabled = !imageBuffer || hotspots.length === 0
   const { t } = useLocale()
 
   const handleExport = () => {
     if (!imageBuffer || hotspots.length === 0) return
-    const blob = embedHotspotsInPng(imageBuffer, hotspots)
+    const blob = embedHotspotsInPng(imageBuffer, hotspots, customData)
     downloadBlob(blob, 'clickable-image.png')
     onExported?.()
   }

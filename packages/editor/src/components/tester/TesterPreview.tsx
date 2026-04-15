@@ -15,6 +15,7 @@ export function TesterPreview({ imageUrl, imageBuffer, onReset }: Props) {
 
   const data = useMemo(() => readHotspotsFromPng(imageBuffer), [imageBuffer])
   const hotspots = data?.hotspots ?? []
+  const customData = data?.customData ?? null
 
   if (hotspots.length === 0) {
     return (
@@ -118,6 +119,16 @@ export function TesterPreview({ imageUrl, imageBuffer, onReset }: Props) {
           </div>
         ) : (
           <p className="text-gray-400 text-sm">{t('tester.clickHint')}</p>
+        )}
+
+        {/* Custom data */}
+        {customData && (
+          <div className="mt-6 border-t pt-4">
+            <h4 className="text-sm font-semibold text-gray-600 mb-2">{t('tester.customData')}</h4>
+            <pre className="text-sm text-gray-800 bg-gray-50 rounded px-3 py-2 font-mono whitespace-pre-wrap break-all max-h-32 overflow-auto">
+              {customData}
+            </pre>
+          </div>
         )}
 
         {/* Hotspot list */}

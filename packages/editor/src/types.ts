@@ -15,4 +15,5 @@ export interface Hotspot {
 export interface ClickableImgData {
   version: string
   hotspots: Hotspot[]
+  customData?: string
 }

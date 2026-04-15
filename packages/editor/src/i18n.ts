@@ -63,6 +63,19 @@ const messages: Record<Locale, Record<string, string>> = {
     'panel.position': '位置',
     'panel.size': '大小',
     'panel.delete': '删除此热区',
+    'panel.jsonFormat': 'JSON 格式化',
+    'panel.jsonValid': 'JSON 格式正确，已自动格式化',
+    'panel.jsonInvalid': '非标准 JSON 格式，但不影响使用，内容将原样嵌入',
+
+    // Existing data detection
+    'editor.existingData': '该图片已包含 {count} 个热区数据',
+    'editor.existingCustomData': '及附加信息',
+    'editor.existingDataHint': '已自动加载，可直接编辑。重新导出将覆盖原有数据。',
+
+    // Custom Data
+    'editor.customData': '附加信息（嵌入图片的自定义内容）',
+    'editor.customDataPlaceholder': '输入任意文本，将随图片一起导出嵌入',
+    'tester.customData': '附加信息',
 
     // Uploader
     'upload.hint': '拖拽或点击上传 PNG 图片',
@@ -91,6 +104,10 @@ const messages: Record<Locale, Record<string, string>> = {
     'sdk.install': '快速安装',
     'sdk.usage': '快速使用',
     'sdk.usageComment': '自动读取 PNG 中嵌入的热区数据并渲染交互层',
+    'sdk.customDataComment': '读取图片中嵌入的自定义附加信息',
+    'sdk.coreUsage': '跨平台使用（Core）',
+    'sdk.coreReadHotspots': '解析热区数据和附加信息',
+    'sdk.coreReadCustomData': '或直接读取附加信息',
     'sdk.pkg.core.name': '@clickable-img/core',
     'sdk.pkg.core.desc': '核心库，提供类型定义和 PNG 元数据解析，零外部依赖，适用于任何平台。',
     'sdk.pkg.sdk.name': '@clickable-img/sdk',
@@ -210,6 +227,19 @@ const messages: Record<Locale, Record<string, string>> = {
     'panel.position': 'Position',
     'panel.size': 'Size',
     'panel.delete': 'Delete Hotspot',
+    'panel.jsonFormat': 'Format JSON',
+    'panel.jsonValid': 'Valid JSON, formatted',
+    'panel.jsonInvalid': 'Not standard JSON, but it will still be embedded as-is',
+
+    // Existing data detection
+    'editor.existingData': 'This image contains {count} existing hotspot(s)',
+    'editor.existingCustomData': 'and custom data',
+    'editor.existingDataHint': 'Loaded automatically. Re-exporting will overwrite the original data.',
+
+    // Custom Data
+    'editor.customData': 'Custom Data (embedded in the image)',
+    'editor.customDataPlaceholder': 'Enter any text to embed with the image',
+    'tester.customData': 'Custom Data',
 
     // Uploader
     'upload.hint': 'Drag & drop or click to upload a PNG image',
@@ -238,6 +268,10 @@ const messages: Record<Locale, Record<string, string>> = {
     'sdk.install': 'Quick Install',
     'sdk.usage': 'Quick Start',
     'sdk.usageComment': 'Auto-reads hotspot data embedded in PNG and renders interactive overlay',
+    'sdk.customDataComment': 'Read custom data embedded in the image',
+    'sdk.coreUsage': 'Cross-Platform Usage (Core)',
+    'sdk.coreReadHotspots': 'Parse hotspot data and custom data',
+    'sdk.coreReadCustomData': 'Or read custom data directly',
     'sdk.pkg.core.name': '@clickable-img/core',
     'sdk.pkg.core.desc': 'Core library with type definitions and PNG metadata parsing. Zero dependencies, works on any platform.',
     'sdk.pkg.sdk.name': '@clickable-img/sdk',

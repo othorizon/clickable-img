@@ -16,6 +16,11 @@ function bytesToString(bytes: Uint8Array, start: number, length: number): string
   return str
 }
 
+export function readCustomDataFromPng(buffer: ArrayBuffer): string | null {
+  const data = readHotspotsFromPng(buffer)
+  return data?.customData ?? null
+}
+
 export function readHotspotsFromPng(buffer: ArrayBuffer): ClickableImgData | null {
   const bytes = new Uint8Array(buffer)
   const view = new DataView(buffer)

@@ -51,9 +51,37 @@ export function SdkGuideSection() {
             <code>{`import { ClickableImg } from '@clickable-img/sdk'
 
 // ${t('sdk.usageComment')}
-ClickableImg.attach(document.querySelector('img'), {
+const instance = await ClickableImg.attach(document.querySelector('img'), {
   onClick: (hotspot) => console.log(hotspot)
-})`}</code>
+})
+
+// ${t('sdk.customDataComment')}
+const customData = instance.getCustomData()`}</code>
+          </pre>
+        </div>
+
+        {/* Core package usage */}
+        <div className="bg-gray-900 rounded-2xl p-6 mb-8 shadow-lg">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-gray-400 text-sm font-medium">{t('sdk.coreUsage')}</span>
+          </div>
+          <pre className="text-gray-300 font-mono text-sm overflow-x-auto leading-relaxed">
+            <code>{`import { readHotspotsFromPng, readCustomDataFromPng } from '@clickable-img/core'
+
+const buffer = await fetch('image.png').then(r => r.arrayBuffer())
+
+// ${t('sdk.coreReadHotspots')}
+const data = readHotspotsFromPng(buffer)
+if (data) {
+  data.hotspots.forEach(hs => {
+    // hs.rect -> { x, y, w, h }  (0~1)
+    // hs.label, hs.payload
+  })
+  console.log(data.customData) // string | undefined
+}
+
+// ${t('sdk.coreReadCustomData')}
+const customData = readCustomDataFromPng(buffer) // string | null`}</code>
           </pre>
         </div>
 

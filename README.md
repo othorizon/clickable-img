@@ -38,6 +38,74 @@ Use the online editor to create and manage hotspots on your images:
 
 The editor lets you visually draw hotspot regions on any PNG image, add labels and custom data to each hotspot, then export the image with all hotspot metadata embedded. The exported PNG can be used directly with the SDK — no additional configuration files needed.
 
+## Quick Start
+
+### Web Browser
+
+```bash
+npm install @clickable-img/sdk
+```
+
+```ts
+import { ClickableImg } from '@clickable-img/sdk'
+
+const img = document.querySelector('img#hero')
+
+const instance = await ClickableImg.attach(img, {
+  onClick(hotspot) {
+    console.log(hotspot.label)   // "Buy Now"
+    console.log(hotspot.payload) // "product-123"
+  },
+  showHints: true, // optional — show hotspot borders
+})
+
+// Read custom data embedded in the image
+const customData = instance.getCustomData() // string | null
+
+// clean up when done
+instance.destroy()
+```
+
+### Cross-Platform Integration
+
+clickable-img works on **any JavaScript-based platform**. The `@clickable-img/sdk` is a ready-to-use wrapper for the browser, but it's not required — all you need is `@clickable-img/core`.
+
+1. **Read hotspot data** — Call `readHotspotsFromPng` from the core package to parse the PNG and extract hotspot coordinates and custom data.
+2. **Build your own overlay** — Use the hotspot coordinates to create clickable regions on top of the image using your platform's native approach — Canvas, native Views, WebGL, etc.
+3. **Handle click events** — When a user taps a hotspot, read its `label` and `payload` to execute your business logic.
+
+> The core package has zero external dependencies and is pure JavaScript — it runs in Node.js, React Native, Mini Programs, Electron, and any other JS runtime.
+
+### Core Only (Custom Rendering)
+
+For platforms without a built-in adapter (React Native, Flutter, Node.js, etc.):
+
+```bash
+npm install @clickable-img/core
+```
+
+```ts
+import { readHotspotsFromPng, readCustomDataFromPng } from '@clickable-img/core'
+
+const buffer = await fetch('https://example.com/image.png')
+  .then(r => r.arrayBuffer())
+
+const data = readHotspotsFromPng(buffer)
+
+if (data) {
+  data.hotspots.forEach(hotspot => {
+    // hotspot.rect -> { x, y, w, h } in 0~1 range (relative to image size)
+    // hotspot.label, hotspot.payload, hotspot.id
+  })
+
+  // Read custom data embedded in the image
+  console.log(data.customData) // string | undefined
+}
+
+// Or read custom data directly without parsing hotspots
+const customData = readCustomDataFromPng(buffer) // string | null
+```
+
 ## Use Cases
 
 When you need interactive regions on images, clickable-img provides the lightest solution:
@@ -97,65 +165,6 @@ DOM overlay generated from coordinates → interaction events bound
 | [`@clickable-img/sdk`](./packages/sdk) | Browser runtime with DOM overlay | Web |
 | [`@clickable-img/editor`](./packages/editor) | Visual hotspot editor | Web |
 
-## Quick Start
-
-### Web Browser
-
-```bash
-npm install @clickable-img/sdk
-```
-
-```ts
-import { ClickableImg } from '@clickable-img/sdk'
-
-const img = document.querySelector('img#hero')
-
-const instance = await ClickableImg.attach(img, {
-  onClick(hotspot) {
-    console.log(hotspot.label)   // "Buy Now"
-    console.log(hotspot.payload) // "product-123"
-  },
-  showHints: true, // optional — show hotspot borders
-})
-
-// clean up when done
-instance.destroy()
-```
-
-### Cross-Platform Integration
-
-clickable-img works on **any JavaScript-based platform**. The `@clickable-img/sdk` is a ready-to-use wrapper for the browser, but it's not required — all you need is `@clickable-img/core`.
-
-1. **Read hotspot data** — Call `readHotspotsFromPng` from the core package to parse the PNG and extract hotspot coordinates and custom data.
-2. **Build your own overlay** — Use the hotspot coordinates to create clickable regions on top of the image using your platform's native approach — Canvas, native Views, WebGL, etc.
-3. **Handle click events** — When a user taps a hotspot, read its `label` and `payload` to execute your business logic.
-
-> The core package has zero external dependencies and is pure JavaScript — it runs in Node.js, React Native, Mini Programs, Electron, and any other JS runtime.
-
-### Core Only (Custom Rendering)
-
-For platforms without a built-in adapter (React Native, Flutter, Node.js, etc.):
-
-```bash
-npm install @clickable-img/core
-```
-
-```ts
-import { readHotspotsFromPng } from '@clickable-img/core'
-
-const buffer = await fetch('https://example.com/image.png')
-  .then(r => r.arrayBuffer())
-
-const data = readHotspotsFromPng(buffer)
-
-if (data) {
-  data.hotspots.forEach(hotspot => {
-    // hotspot.rect -> { x, y, w, h } in 0~1 range (relative to image size)
-    // hotspot.label, hotspot.payload, hotspot.id
-  })
-}
-```
-
 ## API Reference
 
 ### `@clickable-img/sdk`
@@ -168,17 +177,30 @@ if (data) {
 | `options.onClick` | `(hotspot: Hotspot) => void` | Callback when a hotspot is clicked |
 | `options.showHints` | `boolean` | Show hotspot borders. Default: `false` |
 
-Returns `Promise<ClickableImg>`. Call `.destroy()` to remove the overlay.
+Returns `Promise<ClickableImg>`. The instance provides:
+
+- `.getCustomData(): string | null` — Returns custom data embedded in the image, or `null` if none.
+- `.destroy()` — Removes the overlay and cleans up.
 
 ### `@clickable-img/core`
 
 #### `readHotspotsFromPng(buffer: ArrayBuffer): ClickableImgData | null`
 
-Parses PNG `tEXt` chunks and returns hotspot data, or `null` if none found.
+Parses PNG `tEXt` chunks and returns all embedded data (hotspots + custom data), or `null` if none found.
+
+#### `readCustomDataFromPng(buffer: ArrayBuffer): string | null`
+
+Convenience method to read only the custom data field from a PNG, without needing to process hotspots.
 
 ### Data Types
 
 ```ts
+interface ClickableImgData {
+  version: string
+  hotspots: Hotspot[]
+  customData?: string   // arbitrary text embedded with the image
+}
+
 interface Hotspot {
   id: string
   rect: HotspotRect

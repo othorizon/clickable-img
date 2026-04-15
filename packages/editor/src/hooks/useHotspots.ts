@@ -29,9 +29,24 @@ export function useHotspots() {
     )
   }, [])
 
+  const updateHotspotRect = useCallback((id: string, rect: HotspotRect) => {
+    setHotspots((prev) =>
+      prev.map((h) => (h.id === id ? { ...h, rect } : h)),
+    )
+  }, [])
+
   const removeHotspot = useCallback((id: string) => {
     setHotspots((prev) => prev.filter((h) => h.id !== id))
     setSelectedId((prev) => (prev === id ? null : prev))
+  }, [])
+
+  const loadHotspots = useCallback((items: Hotspot[]) => {
+    const loaded = items.map((h) => {
+      const id = generateId()
+      return { ...h, id }
+    })
+    setHotspots(loaded)
+    setSelectedId(null)
   }, [])
 
   const clearAll = useCallback(() => {
@@ -45,7 +60,9 @@ export function useHotspots() {
     setSelectedId,
     addHotspot,
     updateHotspot,
+    updateHotspotRect,
     removeHotspot,
+    loadHotspots,
     clearAll,
   }
 }
