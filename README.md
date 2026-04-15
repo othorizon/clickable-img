@@ -5,7 +5,6 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@clickable-img/sdk"><img src="https://img.shields.io/npm/v/@clickable-img/sdk?color=3b82f6&label=sdk" alt="npm sdk" /></a>
   <a href="https://www.npmjs.com/package/@clickable-img/core"><img src="https://img.shields.io/npm/v/@clickable-img/core?color=8b5cf6&label=core" alt="npm core" /></a>
-  <a href="https://www.npmjs.com/package/@clickable-img/uniapp"><img src="https://img.shields.io/npm/v/@clickable-img/uniapp?color=10b981&label=uniapp" alt="npm uniapp" /></a>
   <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license" />
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs welcome" />
@@ -36,7 +35,6 @@ No server required. All data lives inside the PNG file itself.
 |---------|-------------|----------|
 | [`@clickable-img/core`](./packages/core) | Type definitions & PNG metadata parser | Any JS runtime |
 | [`@clickable-img/sdk`](./packages/sdk) | Browser runtime with DOM overlay | Web |
-| [`@clickable-img/uniapp`](./packages/uniapp) | Vue component for mini programs | UniApp / WeChat |
 | [`@clickable-img/editor`](./packages/editor) | Visual hotspot editor | Web |
 
 ## Quick Start
@@ -63,54 +61,6 @@ const instance = await ClickableImg.attach(img, {
 // clean up when done
 instance.destroy()
 ```
-
-### UniApp / WeChat Mini Program
-
-```bash
-npm install @clickable-img/uniapp
-```
-
-```vue
-<template>
-  <ClickableImage
-    src="https://example.com/promo.png"
-    show-hints
-    @hotspot-tap="onTap"
-    @load-error="onError"
-  />
-</template>
-
-<script setup>
-import { ClickableImage } from '@clickable-img/uniapp'
-
-function onTap(hotspot) {
-  uni.navigateTo({ url: `/pages/detail?id=${hotspot.payload}` })
-}
-
-function onError(err) {
-  console.error(err.message)
-}
-</script>
-```
-
-<details>
-<summary>Using easycom auto-registration</summary>
-
-Add to `pages.json` so you can skip the manual import:
-
-```json
-{
-  "easycom": {
-    "custom": {
-      "ClickableImage": "@clickable-img/uniapp/src/components/ClickableImage.vue"
-    }
-  }
-}
-```
-
-Then use `<ClickableImage>` directly in any page template.
-
-</details>
 
 ### Core Only (Custom Rendering)
 
@@ -149,23 +99,6 @@ if (data) {
 | `options.showHints` | `boolean` | Show hotspot borders. Default: `false` |
 
 Returns `Promise<ClickableImg>`. Call `.destroy()` to remove the overlay.
-
-### `@clickable-img/uniapp`
-
-#### `<ClickableImage>` Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `src` | `string` | *required* | Image URL (HTTP/HTTPS) |
-| `mode` | `string` | `'widthFix'` | UniApp `<image>` display mode |
-| `show-hints` | `boolean` | `false` | Show hotspot borders |
-
-#### `<ClickableImage>` Events
-
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `hotspot-tap` | `Hotspot` | Fired when a hotspot is tapped |
-| `load-error` | `Error` | Fired on image load or parse failure |
 
 ### `@clickable-img/core`
 

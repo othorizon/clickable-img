@@ -11,7 +11,7 @@ npm install @clickable-img/core
 ## Features
 
 - Zero dependencies
-- Works in any JavaScript runtime (Browser, Node.js, UniApp, etc.)
+- Works in any JavaScript runtime (Browser, Node.js, etc.)
 - Parse clickable hotspot metadata embedded in PNG `tEXt` chunks
 - Full TypeScript support with ESM and CJS dual output
 

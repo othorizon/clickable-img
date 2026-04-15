@@ -94,8 +94,6 @@ const messages: Record<Locale, Record<string, string>> = {
     'sdk.pkg.core.desc': '核心库，提供类型定义和 PNG 元数据解析，零外部依赖，适用于任何平台。',
     'sdk.pkg.sdk.name': '@clickable-img/sdk',
     'sdk.pkg.sdk.desc': '浏览器端 SDK，自动读取图片热区数据并渲染可交互覆盖层，开箱即用。',
-    'sdk.pkg.uniapp.name': '@clickable-img/uniapp',
-    'sdk.pkg.uniapp.desc': 'UniApp / 微信小程序组件，Vue 3 适配，跨端支持。',
     'sdk.viewOnGithub': '查看 GitHub 文档',
     'sdk.githubHint': '完整的安装指南、API 文档和使用示例',
 
@@ -195,8 +193,6 @@ const messages: Record<Locale, Record<string, string>> = {
     'sdk.pkg.core.desc': 'Core library with type definitions and PNG metadata parsing. Zero dependencies, works on any platform.',
     'sdk.pkg.sdk.name': '@clickable-img/sdk',
     'sdk.pkg.sdk.desc': 'Browser SDK that reads image hotspot data and renders interactive overlays. Works out of the box.',
-    'sdk.pkg.uniapp.name': '@clickable-img/uniapp',
-    'sdk.pkg.uniapp.desc': 'UniApp / WeChat Mini Program component with Vue 3 support for cross-platform use.',
     'sdk.viewOnGithub': 'View on GitHub',
     'sdk.githubHint': 'Full installation guide, API docs, and usage examples',
 

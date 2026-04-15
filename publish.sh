@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PACKAGES=(core sdk uniapp)
+PACKAGES=(core sdk)
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 usage() {

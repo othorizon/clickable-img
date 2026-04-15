@@ -5,7 +5,6 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@clickable-img/sdk"><img src="https://img.shields.io/npm/v/@clickable-img/sdk?color=3b82f6&label=sdk" alt="npm sdk" /></a>
   <a href="https://www.npmjs.com/package/@clickable-img/core"><img src="https://img.shields.io/npm/v/@clickable-img/core?color=8b5cf6&label=core" alt="npm core" /></a>
-  <a href="https://www.npmjs.com/package/@clickable-img/uniapp"><img src="https://img.shields.io/npm/v/@clickable-img/uniapp?color=10b981&label=uniapp" alt="npm uniapp" /></a>
   <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license" />
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs welcome" />
@@ -36,7 +35,6 @@
 |------|------|------|
 | [`@clickable-img/core`](./packages/core) | 类型定义 + PNG 元数据解析 | 全平台 |
 | [`@clickable-img/sdk`](./packages/sdk) | 浏览器运行时，DOM 覆盖层渲染 | Web |
-| [`@clickable-img/uniapp`](./packages/uniapp) | 小程序 Vue 组件 | UniApp / 微信 |
 | [`@clickable-img/editor`](./packages/editor) | 可视化热区编辑器 | Web |
 
 ## 快速开始
@@ -63,54 +61,6 @@ const instance = await ClickableImg.attach(img, {
 // 不再需要时销毁
 instance.destroy()
 ```
-
-### UniApp / 微信小程序
-
-```bash
-npm install @clickable-img/uniapp
-```
-
-```vue
-<template>
-  <ClickableImage
-    src="https://example.com/promo.png"
-    show-hints
-    @hotspot-tap="onTap"
-    @load-error="onError"
-  />
-</template>
-
-<script setup>
-import { ClickableImage } from '@clickable-img/uniapp'
-
-function onTap(hotspot) {
-  uni.navigateTo({ url: `/pages/detail?id=${hotspot.payload}` })
-}
-
-function onError(err) {
-  console.error(err.message)
-}
-</script>
-```
-
-<details>
-<summary>使用 easycom 自动注册</summary>
-
-在 `pages.json` 中添加配置，之后无需手动 import：
-
-```json
-{
-  "easycom": {
-    "custom": {
-      "ClickableImage": "@clickable-img/uniapp/src/components/ClickableImage.vue"
-    }
-  }
-}
-```
-
-配置后可在任意页面模板中直接使用 `<ClickableImage>`。
-
-</details>
 
 ### 仅使用核心包（自定义渲染）
 
@@ -149,23 +99,6 @@ if (data) {
 | `options.showHints` | `boolean` | 是否显示热区边框，默认 `false` |
 
 返回 `Promise<ClickableImg>`，调用 `.destroy()` 移除覆盖层。
-
-### `@clickable-img/uniapp`
-
-#### `<ClickableImage>` Props
-
-| Prop | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `src` | `string` | 必填 | 图片 URL（HTTP/HTTPS） |
-| `mode` | `string` | `'widthFix'` | 图片缩放模式，同 UniApp `<image>` 的 mode |
-| `show-hints` | `boolean` | `false` | 是否显示热区边框 |
-
-#### `<ClickableImage>` Events
-
-| 事件 | 参数 | 说明 |
-|------|------|------|
-| `hotspot-tap` | `Hotspot` | 点击热区时触发 |
-| `load-error` | `Error` | 图片加载或元数据解析失败时触发 |
 
 ### `@clickable-img/core`
 
