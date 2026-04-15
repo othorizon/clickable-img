@@ -1,5 +1,6 @@
-import type { ClickableImgOptions } from './types'
-import { readHotspotsFromPng, fetchImageData } from './png-reader'
+import type { ClickableImgOptions } from '@clickable-img/core'
+import { readHotspotsFromPng } from '@clickable-img/core'
+import { fetchImageData } from './fetch'
 import { createOverlay, type OverlayInstance } from './overlay'
 
 export class ClickableImg {
